@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-div">
+        <div class="center-div">
+            <h1>Welcome To Typing <span>Speed Test</span></h1>
+            <h2 id="msg"></h2>
+            <textarea  id="myarea" cols="100" rows="10" placeholder="remeber, be nice!"></textarea>
+            <br>
+            <button class="main-btn" id="btn">START</button>
+        </div>
+    </div>
+
+
+    <script>
+
+        const textarea = document.querySelector('#myarea');
+        let btn = document.querySelector('.main-btn');
+        let msg = document.querySelector('#msg');
+        let startTime, endTime;
+
+        const setOfWords = ['hey my name is ahsan Farooq',
+        "this is something which should be called of and should be nothing",
+        "my main subjects are Programming and i will do it again",
+        "this is something which it would gain again and again",
+        "this script is never called of from different thing and i really like this shit",
+    ]
+    const playGame = () => {
+        // console.log('clciked third');
+        const rand = Math.floor(Math.random()*setOfWords.length);
+        msg.innerText = setOfWords[rand];
+        let date = new Date();
+        startTime = date.getTime();
+        btn.innerText = "END";
+    }
+    const EndPlay = () => {
+        let date = new Date();
+        endTime = date.getTime();
+        let totalTime = ((endTime-startTime)/1000);
+        console.log(totalTime);
+
+        let totalstr = textarea.value;
+        let wordcount = wordCounter(totalstr);
+        let speed = Math.round((wordcount/ totalTime)*60);
+        // console.log(speed);
+        let finalmsg = `You typed total at ${speed} words per minute`;
+        finalmsg += compareWords(msg.innerText,totalstr);
+        msg.innerText = finalmsg;
+    }
+
+    const compareWords = (str1,str2) => {
+        let words1 = str1.split(" ");
+        let words2 = str2.split(" ");
+        let count = 0;
+
+        words1.forEach(function(item,index){
+            if(item == words2[index]){
+                count++;
+            }
+
+        });
+
+        let errorwords = words1.length - count;
+        return `  ${count} correct out of ${words1.length} words and the total number of errors are ${errorwords}.`;
+
+
+
+    };
+    const wordCounter = (str) => {
+        let response = str.split(" ").length;
+        console.log(response);
+        return response;
+
+
+
+    }
+    btn.addEventListener('click', () => {
+        // console.log('clicked one');
+        // btn.innerText = "END";
+        if(btn.innerText == "START"){
+            // console.log('clicked 2nd time');
+            textarea.disabled = false;
+            playGame();
+            textarea.value = "";
+        }
+        else if(btn.innerText == "END"){
+            textarea.disabled = true;
+            btn.innerText = "START";
+            EndPlay();        
+}
+        // const rand = Math.floor(Math.random()*setOfWords.length);
+        // msg.innerText = setOfWords[rand];
+
+    })
+    
+    </script>
+    
+</body>
+</html>
